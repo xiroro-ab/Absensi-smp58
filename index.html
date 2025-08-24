@@ -16,9 +16,12 @@
         .card-hadir { background-color: #dcfce7; border-color: #4ade80; }
         .card-sakit { background-color: #fee2e2; border-color: #f87171; }
         .card-izin { background-color: #fef9c3; border-color: #facc15; }
+        .card-alfa { background-color: #e5e7eb; border-color: #9ca3af; }
         .btn-hadir.active { background-color: #22c55e; color: white; }
         .btn-sakit.active { background-color: #ef4444; color: white; }
         .btn-izin.active { background-color: #eab308; color: white; }
+        .btn-alfa.active { background-color: #6b7280; color: white; }
+        .rekap-tab.active { border-color: #4f46e5; color: #4f46e5; background-color: #eef2ff; }
         @media print {
             body * { visibility: hidden; }
             #print-area, #print-area * { visibility: visible; }
@@ -99,6 +102,10 @@
                             <button class="class-selector-btn bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300" data-kelas="7.2" data-type="guru_mapel">7.2</button>
                             <button class="class-selector-btn bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300" data-kelas="7.3" data-type="guru_mapel">7.3</button>
                             <button class="class-selector-btn bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300" data-kelas="7.4" data-type="guru_mapel">7.4</button>
+                            <button class="class-selector-btn bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300" data-kelas="8.1" data-type="guru_mapel">8.1</button>
+                            <button class="class-selector-btn bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300" data-kelas="8.2" data-type="guru_mapel">8.2</button>
+                            <button class="class-selector-btn bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300" data-kelas="8.3" data-type="guru_mapel">8.3</button>
+                            <button class="class-selector-btn bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300" data-kelas="8.4" data-type="guru_mapel">8.4</button>
                             <button class="class-selector-btn bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300" data-kelas="9.1" data-type="guru_mapel">9.1</button>
                             <button class="class-selector-btn bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300" data-kelas="9.2" data-type="guru_mapel">9.2</button>
                             <button class="class-selector-btn bg-gray-200 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-300" data-kelas="9.3" data-type="guru_mapel">9.3</button>
@@ -130,18 +137,33 @@
             <!-- Halaman 2: Rekapan -->
             <div id="page-rekapan" class="hidden">
                  <div class="px-4 py-6 md:p-6 bg-white rounded-lg shadow-sm">
-                    <div class="flex justify-between items-center mb-6">
-                        <h1 class="text-2xl font-bold text-gray-900">Rekapan Kehadiran Siswa (Harian)</h1>
+                    <div class="flex justify-between items-center mb-4">
+                        <h1 class="text-2xl font-bold text-gray-900">Rekapan Kehadiran Siswa</h1>
                         <button id="print-btn" class="no-print bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg hover:bg-indigo-700">Cetak</button>
                     </div>
-                     <p class="text-sm text-gray-500 mb-6 -mt-4">Rekapan ini menampilkan data absensi harian yang diisi oleh Wali Kelas.</p>
+
+                    <!-- Tab Pilihan Rekap -->
+                    <div class="no-print border-b border-gray-200 mb-6">
+                        <nav class="-mb-px flex space-x-6" aria-label="Tabs">
+                            <button class="rekap-tab active whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm" data-rekap-type="wali_kelas">Rekap Wali Kelas (Harian)</button>
+                            <button class="rekap-tab whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" data-rekap-type="guru_mapel">Rekap Guru Mapel (Per Jam)</button>
+                        </nav>
+                    </div>
                     
                     <div class="no-print flex flex-wrap gap-4 items-end mb-6">
+                        <!-- Filter untuk Guru Mapel (Tingkatan) -->
+                        <div id="filter-tingkat-mapel" class="hidden">
+                            <label for="rekapan-tingkat" class="block text-sm font-medium text-gray-700">Pilih Tingkatan</label>
+                            <select id="rekapan-tingkat" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                <option value="7">Kelas 7</option>
+                                <option value="8">Kelas 8</option>
+                                <option value="9">Kelas 9</option>
+                            </select>
+                        </div>
                         <div>
                             <label for="rekapan-kelas" class="block text-sm font-medium text-gray-700">Pilih Kelas</label>
                             <select id="rekapan-kelas" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
-                                <option>7.1</option><option>7.2</option><option>7.3</option><option>7.4</option>
-                                <option>9.1</option><option>9.2</option><option>9.3</option><option>9.4</option>
+                                <!-- Opsi kelas akan diisi oleh JS -->
                             </select>
                         </div>
                         <div>
@@ -184,6 +206,9 @@
         // ===================================================================================
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwS6FOBTlTqQAaiziP22M2Cl11ei-qav0FiUpYqyyWg2I2qAcnyzpKMnEbuIYMKNzeyyg/exec'; 
         // ===================================================================================
+        const KELAS_7 = ["7.1", "7.2", "7.3", "7.4"];
+        const KELAS_8 = ["8.1", "8.2", "8.3", "8.4"];
+        const KELAS_9 = ["9.1", "9.2", "9.3", "9.4"];
 
         // --- Elemen DOM ---
         const loginPage = document.getElementById('login-page');
@@ -206,6 +231,10 @@
         const simpanAbsensiBtn = document.getElementById('simpan-absensi-btn');
         const statusMessage = document.getElementById('status-message');
         
+        const rekapanTabs = document.querySelectorAll('.rekap-tab');
+        const filterTingkatMapel = document.getElementById('filter-tingkat-mapel');
+        const rekapanTingkat = document.getElementById('rekapan-tingkat');
+        const rekapanKelas = document.getElementById('rekapan-kelas');
         const rekapanType = document.getElementById('rekapan-type');
         const filterHarian = document.getElementById('filter-harian');
         const filterBulanan = document.getElementById('filter-bulanan');
@@ -218,17 +247,14 @@
 
         // --- State Aplikasi ---
         let selectedKelas = null;
-        let selectedAttendanceType = null; // 'wali_kelas' atau 'guru_mapel'
+        let selectedAttendanceType = null;
+        let activeRekapType = 'wali_kelas';
 
         // --- Fungsi ---
-
-        // Fungsi untuk menampilkan tanggal hari ini
         function displayDate() {
             const today = new Date();
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             currentDateEl.textContent = today.toLocaleDateString('id-ID', options);
-            
-            // Set default date for rekapan
             const yyyy = today.getFullYear();
             const mm = String(today.getMonth() + 1).padStart(2, '0');
             const dd = String(today.getDate()).padStart(2, '0');
@@ -236,272 +262,122 @@
             document.getElementById('rekapan-bulan').value = `${yyyy}-${mm}`;
         }
 
-        // Fungsi untuk menangani login
-        function handleLogin(e) {
-            e.preventDefault();
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            if (username === 'admin' && password === 'admin') {
-                loginPage.classList.add('hidden');
-                appContent.classList.remove('hidden');
-                sessionStorage.setItem('loggedIn', 'true');
-            } else {
-                loginError.textContent = 'Username atau password salah.';
-            }
-        }
-        
-        // Fungsi untuk menangani logout
-        function handleLogout() {
-            sessionStorage.removeItem('loggedIn');
-            loginPage.classList.remove('hidden');
-            appContent.classList.add('hidden');
-            location.reload();
-        }
-        
-        // Fungsi navigasi antar halaman
-        function navigate(page) {
-            if (page === 'absensi') {
-                pageAbsensi.classList.remove('hidden');
-                pageRekapan.classList.add('hidden');
-                navAbsensi.classList.add('bg-indigo-600', 'text-white');
-                navRekapan.classList.remove('bg-indigo-600', 'text-white');
-            } else if (page === 'rekapan') {
-                pageAbsensi.classList.add('hidden');
-                pageRekapan.classList.remove('hidden');
-                navAbsensi.classList.remove('bg-indigo-600', 'text-white');
-                navRekapan.classList.add('bg-indigo-600', 'text-white');
-            }
-        }
+        function handleLogin(e) { e.preventDefault(); if (document.getElementById('username').value === 'admin' && document.getElementById('password').value === 'admin') { loginPage.classList.add('hidden'); appContent.classList.remove('hidden'); sessionStorage.setItem('loggedIn', 'true'); } else { loginError.textContent = 'Username atau password salah.'; } }
+        function handleLogout() { sessionStorage.removeItem('loggedIn'); loginPage.classList.remove('hidden'); appContent.classList.add('hidden'); location.reload(); }
+        function navigate(page) { if (page === 'absensi') { pageAbsensi.classList.remove('hidden'); pageRekapan.classList.add('hidden'); navAbsensi.classList.add('bg-indigo-600', 'text-white'); navRekapan.classList.remove('bg-indigo-600', 'text-white'); } else if (page === 'rekapan') { pageAbsensi.classList.add('hidden'); pageRekapan.classList.remove('hidden'); navAbsensi.classList.remove('bg-indigo-600', 'text-white'); navRekapan.classList.add('bg-indigo-600', 'text-white'); } }
 
-        // Fungsi untuk memuat siswa berdasarkan kelas
         async function loadStudents(kelas, type) {
-            selectedKelas = kelas;
-            selectedAttendanceType = type; // Menyimpan tipe absensi
-            studentGridContainer.classList.remove('hidden');
-            studentGrid.innerHTML = '';
-            studentGridLoader.classList.remove('hidden');
-            selectedClassTitle.textContent = kelas;
-            statusMessage.textContent = '';
-            
-            if (scriptURL === 'URL_SCRIPT_ANDA') {
-                studentGrid.innerHTML = `<p class="col-span-full text-center text-red-500">Error: URL Google Apps Script belum diatur.</p>`;
-                studentGridLoader.classList.add('hidden');
-                return;
-            }
-
+            selectedKelas = kelas; selectedAttendanceType = type;
+            studentGridContainer.classList.remove('hidden'); studentGrid.innerHTML = ''; studentGridLoader.classList.remove('hidden');
+            selectedClassTitle.textContent = kelas; statusMessage.textContent = '';
+            if (scriptURL === 'URL_SCRIPT_ANDA') { studentGrid.innerHTML = `<p class="col-span-full text-center text-red-500">Error: URL Google Apps Script belum diatur.</p>`; studentGridLoader.classList.add('hidden'); return; }
             try {
                 const response = await fetch(`${scriptURL}?action=getStudents&kelas=${kelas}`);
                 const students = await response.json();
-                
                 if (students.error) throw new Error(students.error);
-
                 students.forEach(student => {
                     const card = document.createElement('div');
                     card.className = 'student-card border-2 rounded-lg p-4 transition card-hadir';
-                    card.dataset.nisn = student.NISN;
-                    card.dataset.nama = student.Nama;
-                    card.dataset.status = 'Hadir';
-                    card.innerHTML = `
-                        <h4 class="font-bold text-gray-800">${student.Nama}</h4>
-                        <p class="text-sm text-gray-500">${student.NISN}</p>
-                        <div class="flex justify-between mt-4 gap-1">
-                            <button class="status-btn btn-hadir active w-1/3 text-xs font-semibold py-1 px-2 rounded" data-status="Hadir">H</button>
-                            <button class="status-btn btn-sakit w-1/3 text-xs font-semibold py-1 px-2 rounded bg-gray-200" data-status="Sakit">S</button>
-                            <button class="status-btn btn-izin w-1/3 text-xs font-semibold py-1 px-2 rounded bg-gray-200" data-status="Izin">I</button>
-                        </div>
-                    `;
+                    card.dataset.nisn = student.NISN; card.dataset.nama = student.Nama; card.dataset.status = 'Hadir';
+                    card.innerHTML = `<h4 class="font-bold text-gray-800">${student.Nama}</h4><p class="text-sm text-gray-500">${student.NISN}</p><div class="flex justify-between mt-4 gap-1"><button class="status-btn btn-hadir active w-1/4 text-xs font-semibold py-1 px-2 rounded" data-status="Hadir">H</button><button class="status-btn btn-sakit w-1/4 text-xs font-semibold py-1 px-2 rounded bg-gray-200" data-status="Sakit">S</button><button class="status-btn btn-izin w-1/4 text-xs font-semibold py-1 px-2 rounded bg-gray-200" data-status="Izin">I</button><button class="status-btn btn-alfa w-1/4 text-xs font-semibold py-1 px-2 rounded bg-gray-200" data-status="Alfa">A</button></div>`;
                     studentGrid.appendChild(card);
                 });
-            } catch (error) {
-                studentGrid.innerHTML = `<p class="col-span-full text-center text-red-500">Gagal memuat data siswa. Pastikan sheet "Daftar Murid ${kelas}" ada dan benar. Error: ${error.message}</p>`;
-            } finally {
-                studentGridLoader.classList.add('hidden');
-            }
+            } catch (error) { studentGrid.innerHTML = `<p class="col-span-full text-center text-red-500">Gagal memuat data siswa. Pastikan sheet "Daftar Murid ${kelas}" ada dan benar. Error: ${error.message}</p>`; } finally { studentGridLoader.classList.add('hidden'); }
         }
-        
-        // Fungsi untuk mengubah status siswa
+
         function setStudentStatus(card, status) {
-            card.dataset.status = status;
-            card.querySelectorAll('.status-btn').forEach(btn => btn.classList.remove('active', 'bg-gray-200'));
-            
-            card.classList.remove('card-hadir', 'card-sakit', 'card-izin');
-            if (status === 'Hadir') {
-                card.classList.add('card-hadir');
-                card.querySelector('.btn-hadir').classList.add('active');
-                card.querySelector('.btn-sakit').classList.add('bg-gray-200');
-                card.querySelector('.btn-izin').classList.add('bg-gray-200');
-            } else if (status === 'Sakit') {
-                card.classList.add('card-sakit');
-                card.querySelector('.btn-sakit').classList.add('active');
-                card.querySelector('.btn-hadir').classList.add('bg-gray-200');
-                card.querySelector('.btn-izin').classList.add('bg-gray-200');
-            } else if (status === 'Izin') {
-                card.classList.add('card-izin');
-                card.querySelector('.btn-izin').classList.add('active');
-                card.querySelector('.btn-hadir').classList.add('bg-gray-200');
-                card.querySelector('.btn-sakit').classList.add('bg-gray-200');
-            }
+            card.dataset.status = status; card.querySelectorAll('.status-btn').forEach(btn => btn.classList.remove('active', 'bg-gray-200'));
+            card.classList.remove('card-hadir', 'card-sakit', 'card-izin', 'card-alfa');
+            if (status === 'Hadir') { card.classList.add('card-hadir'); card.querySelector('.btn-hadir').classList.add('active'); card.querySelector('.btn-sakit').classList.add('bg-gray-200'); card.querySelector('.btn-izin').classList.add('bg-gray-200'); card.querySelector('.btn-alfa').classList.add('bg-gray-200'); } 
+            else if (status === 'Sakit') { card.classList.add('card-sakit'); card.querySelector('.btn-sakit').classList.add('active'); card.querySelector('.btn-hadir').classList.add('bg-gray-200'); card.querySelector('.btn-izin').classList.add('bg-gray-200'); card.querySelector('.btn-alfa').classList.add('bg-gray-200'); } 
+            else if (status === 'Izin') { card.classList.add('card-izin'); card.querySelector('.btn-izin').classList.add('active'); card.querySelector('.btn-hadir').classList.add('bg-gray-200'); card.querySelector('.btn-sakit').classList.add('bg-gray-200'); card.querySelector('.btn-alfa').classList.add('bg-gray-200'); }
+            else if (status === 'Alfa') { card.classList.add('card-alfa'); card.querySelector('.btn-alfa').classList.add('active'); card.querySelector('.btn-hadir').classList.add('bg-gray-200'); card.querySelector('.btn-sakit').classList.add('bg-gray-200'); card.querySelector('.btn-izin').classList.add('bg-gray-200'); }
         }
 
-        // Fungsi untuk menyimpan absensi
         async function saveAttendance() {
-            const attendanceData = [];
-            document.querySelectorAll('.student-card').forEach(card => {
-                attendanceData.push({
-                    nama: card.dataset.nama,
-                    nisn: card.dataset.nisn,
-                    status: card.dataset.status
-                });
-            });
-
-            if (attendanceData.length === 0) {
-                statusMessage.textContent = 'Tidak ada data siswa untuk disimpan.';
-                statusMessage.className = 'text-center mb-4 text-yellow-600';
-                return;
-            }
-            
-            simpanAbsensiBtn.disabled = true;
-            document.getElementById('simpan-loader').classList.remove('hidden');
-            document.getElementById('simpan-btn-text').textContent = 'Menyimpan...';
-
-            const payload = {
-                kelas: selectedKelas,
-                type: selectedAttendanceType, // Mengirim tipe absensi ke script
-                tanggal: new Date().toISOString().slice(0, 10), // YYYY-MM-DD
-                data: attendanceData
-            };
-            
+            const attendanceData = []; document.querySelectorAll('.student-card').forEach(card => { attendanceData.push({ nama: card.dataset.nama, nisn: card.dataset.nisn, status: card.dataset.status }); });
+            if (attendanceData.length === 0) { statusMessage.textContent = 'Tidak ada data siswa untuk disimpan.'; statusMessage.className = 'text-center mb-4 text-yellow-600'; return; }
+            simpanAbsensiBtn.disabled = true; document.getElementById('simpan-loader').classList.remove('hidden'); document.getElementById('simpan-btn-text').textContent = 'Menyimpan...';
+            const payload = { kelas: selectedKelas, type: selectedAttendanceType, tanggal: new Date().toISOString().slice(0, 10), data: attendanceData };
             try {
-                const response = await fetch(scriptURL, {
-                    method: 'POST',
-                    body: JSON.stringify(payload),
-                    headers: { 'Content-Type': 'text/plain;charset=utf-8' }
-                });
+                const response = await fetch(scriptURL, { method: 'POST', body: JSON.stringify(payload), headers: { 'Content-Type': 'text/plain;charset=utf-8' } });
                 const result = await response.json();
-                if (result.result === 'success') {
-                    statusMessage.textContent = `Absensi kelas ${selectedKelas} (${selectedAttendanceType === 'wali_kelas' ? 'Harian' : 'Mapel'}) berhasil disimpan!`;
-                    statusMessage.className = 'text-center mb-4 text-green-600 font-semibold';
-                } else {
-                    throw new Error(result.message || 'Unknown error');
-                }
-            } catch (error) {
-                statusMessage.textContent = `Gagal menyimpan absensi. Error: ${error.message}`;
-                statusMessage.className = 'text-center mb-4 text-red-600 font-semibold';
-            } finally {
-                simpanAbsensiBtn.disabled = false;
-                document.getElementById('simpan-loader').classList.add('hidden');
-                document.getElementById('simpan-btn-text').textContent = 'Simpan Absensi';
-            }
+                if (result.result === 'success') { statusMessage.textContent = `Absensi kelas ${selectedKelas} (${selectedAttendanceType === 'wali_kelas' ? 'Harian' : 'Mapel'}) berhasil disimpan!`; statusMessage.className = 'text-center mb-4 text-green-600 font-semibold'; } else { throw new Error(result.message || 'Unknown error'); }
+            } catch (error) { statusMessage.textContent = `Gagal menyimpan absensi. Error: ${error.message}`; statusMessage.className = 'text-center mb-4 text-red-600 font-semibold'; } finally { simpanAbsensiBtn.disabled = false; document.getElementById('simpan-loader').classList.add('hidden'); document.getElementById('simpan-btn-text').textContent = 'Simpan Absensi'; }
         }
-        
-        // Fungsi untuk memuat rekapan
-        async function loadRekapan() {
-            rekapanLoader.classList.remove('hidden');
-            rekapanTableContainer.innerHTML = '';
-            rekapanTitle.classList.add('hidden');
 
-            const kelas = document.getElementById('rekapan-kelas').value;
+        function updateRekapKelasOptions() {
+            rekapanKelas.innerHTML = '';
+            let kelasList = [];
+            if (activeRekapType === 'wali_kelas') {
+                kelasList = ["7.1"]; // Hanya kelas wali
+            } else {
+                const tingkat = rekapanTingkat.value;
+                if (tingkat === '7') { kelasList = KELAS_7; } 
+                else if (tingkat === '8') { kelasList = KELAS_8; } 
+                else { kelasList = KELAS_9; }
+            }
+            kelasList.forEach(k => {
+                const option = document.createElement('option');
+                option.value = k;
+                option.textContent = k;
+                rekapanKelas.appendChild(option);
+            });
+        }
+
+        async function loadRekapan() {
+            rekapanLoader.classList.remove('hidden'); rekapanTableContainer.innerHTML = ''; rekapanTitle.classList.add('hidden');
+            const kelas = rekapanKelas.value;
             const type = rekapanType.value;
             const tanggal = document.getElementById('rekapan-tanggal').value;
             const bulan = document.getElementById('rekapan-bulan').value;
+            const tingkat = rekapanTingkat.value;
             
-            let url = `${scriptURL}?action=getRekapan&kelas=${kelas}&type=${type}`;
-            if (type === 'harian') {
-                url += `&tanggal=${tanggal}`;
-                rekapanSubtitle.textContent = `Kelas ${kelas} - Tanggal ${new Date(tanggal+'T00:00:00').toLocaleDateString('id-ID', { dateStyle: 'full' })}`;
-            } else {
-                url += `&bulan=${bulan}`;
-                const [year, month] = bulan.split('-');
-                rekapanSubtitle.textContent = `Kelas ${kelas} - Bulan ${new Date(year, month-1).toLocaleString('id-ID', { month: 'long', year: 'numeric' })}`;
-            }
+            let url = `${scriptURL}?action=getRekapan&rekapType=${activeRekapType}&kelas=${kelas}&type=${type}`;
+            if (activeRekapType === 'guru_mapel') url += `&tingkat=${tingkat}`;
+            if (type === 'harian') { url += `&tanggal=${tanggal}`; rekapanSubtitle.textContent = `Kelas ${kelas} - Tanggal ${new Date(tanggal+'T00:00:00').toLocaleDateString('id-ID', { dateStyle: 'full' })}`; } else { url += `&bulan=${bulan}`; const [year, month] = bulan.split('-'); rekapanSubtitle.textContent = `Kelas ${kelas} - Bulan ${new Date(year, month-1).toLocaleString('id-ID', { month: 'long', year: 'numeric' })}`; }
             
             try {
                 const response = await fetch(url);
                 const result = await response.json();
-                
                 if (result.error) throw new Error(result.error);
-                
                 rekapanTitle.classList.remove('hidden');
-                
-                if (result.length === 0) {
-                    rekapanTableContainer.innerHTML = '<p class="text-center text-gray-500">Tidak ada data untuk periode yang dipilih.</p>';
-                    return;
-                }
-
-                const table = document.createElement('table');
-                table.className = 'min-w-full divide-y divide-gray-200';
-                const thead = document.createElement('thead');
-                thead.className = 'bg-gray-50';
+                if (result.length === 0) { rekapanTableContainer.innerHTML = '<p class="text-center text-gray-500">Tidak ada data untuk periode yang dipilih.</p>'; return; }
+                const table = document.createElement('table'); table.className = 'min-w-full divide-y divide-gray-200';
+                const thead = document.createElement('thead'); thead.className = 'bg-gray-50';
                 const headers = Object.keys(result[0]);
                 thead.innerHTML = `<tr>${headers.map(h => `<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">${h}</th>`).join('')}</tr>`;
-                
-                const tbody = document.createElement('tbody');
-                tbody.className = 'bg-white divide-y divide-gray-200';
-                result.forEach(row => {
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = headers.map(h => `<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${row[h]}</td>`).join('');
-                    tbody.appendChild(tr);
-                });
-                
-                table.append(thead, tbody);
-                rekapanTableContainer.appendChild(table);
-
-            } catch (error) {
-                rekapanTableContainer.innerHTML = `<p class="text-center text-red-500">Gagal memuat rekapan. Error: ${error.message}</p>`;
-            } finally {
-                rekapanLoader.classList.add('hidden');
-            }
+                const tbody = document.createElement('tbody'); tbody.className = 'bg-white divide-y divide-gray-200';
+                result.forEach(row => { const tr = document.createElement('tr'); tr.innerHTML = headers.map(h => `<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-700">${row[h]}</td>`).join(''); tbody.appendChild(tr); });
+                table.append(thead, tbody); rekapanTableContainer.appendChild(table);
+            } catch (error) { rekapanTableContainer.innerHTML = `<p class="text-center text-red-500">Gagal memuat rekapan. Error: ${error.message}</p>`; } finally { rekapanLoader.classList.add('hidden'); }
         }
 
         // --- Event Listeners ---
-        
-        // Cek status login saat memuat halaman
-        window.addEventListener('DOMContentLoaded', () => {
-            if (sessionStorage.getItem('loggedIn') === 'true') {
-                loginPage.classList.add('hidden');
-                appContent.classList.remove('hidden');
-            }
-            displayDate();
-        });
-
+        window.addEventListener('DOMContentLoaded', () => { if (sessionStorage.getItem('loggedIn') === 'true') { loginPage.classList.add('hidden'); appContent.classList.remove('hidden'); } displayDate(); updateRekapKelasOptions(); });
         loginForm.addEventListener('submit', handleLogin);
         logoutButton.addEventListener('click', handleLogout);
         navAbsensi.addEventListener('click', () => navigate('absensi'));
         navRekapan.addEventListener('click', () => navigate('rekapan'));
-
-        document.querySelectorAll('.class-selector-btn').forEach(btn => {
-            btn.addEventListener('click', () => loadStudents(btn.dataset.kelas, btn.dataset.type));
-        });
-        
-        studentGrid.addEventListener('click', (e) => {
-            const statusBtn = e.target.closest('.status-btn');
-            if (statusBtn) {
-                const card = e.target.closest('.student-card');
-                setStudentStatus(card, statusBtn.dataset.status);
-            }
-        });
-        
-        hadirSemuaBtn.addEventListener('click', () => {
-            document.querySelectorAll('.student-card').forEach(card => {
-                setStudentStatus(card, 'Hadir');
-            });
-        });
-        
+        document.querySelectorAll('.class-selector-btn').forEach(btn => { btn.addEventListener('click', () => loadStudents(btn.dataset.kelas, btn.dataset.type)); });
+        studentGrid.addEventListener('click', (e) => { const statusBtn = e.target.closest('.status-btn'); if (statusBtn) { const card = e.target.closest('.student-card'); setStudentStatus(card, statusBtn.dataset.status); } });
+        hadirSemuaBtn.addEventListener('click', () => { document.querySelectorAll('.student-card').forEach(card => { setStudentStatus(card, 'Hadir'); }); });
         simpanAbsensiBtn.addEventListener('click', saveAttendance);
         
-        rekapanType.addEventListener('change', () => {
-            if (rekapanType.value === 'harian') {
-                filterHarian.classList.remove('hidden');
-                filterBulanan.classList.add('hidden');
-            } else {
-                filterHarian.classList.add('hidden');
-                filterBulanan.classList.remove('hidden');
-            }
+        rekapanTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                rekapanTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                activeRekapType = tab.dataset.rekapType;
+                filterTingkatMapel.classList.toggle('hidden', activeRekapType === 'wali_kelas');
+                updateRekapKelasOptions();
+            });
         });
-        
+
+        rekapanTingkat.addEventListener('change', updateRekapKelasOptions);
+        rekapanType.addEventListener('change', () => { filterHarian.classList.toggle('hidden', rekapanType.value !== 'harian'); filterBulanan.classList.toggle('hidden', rekapanType.value !== 'bulanan'); });
         tampilkanRekapanBtn.addEventListener('click', loadRekapan);
         printBtn.addEventListener('click', () => window.print());
-
     </script>
 </body>
 </html>
